@@ -26,6 +26,80 @@ class Event extends CI_Controller
         $this->load->view('templates/v_template', $data, false);
         $this->session->set_flashdata('pesan', '');
     }
+    public function addData()
+    {
+        $config = array(
+            array(
+                'field' => 'nama_event',
+                'label' => 'Nama Event',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'kuota',
+                'label' => 'Kuota',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'waktu_mulai',
+                'label' => 'Waktu Mulai',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'waktu_selesai',
+                'label' => 'Waktu Selesai',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'tempat',
+                'label' => 'Tempat',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'link_zoom',
+                'label' => 'link',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+        );
+
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == false) {
+            // jika validasi salah
+            $data =
+                [
+                    'judul' => 'Admin | Event',
+                    'title' => 'Add Data Event',
+                    'event' => $this->ModelEvent->getAllData(),
+                    'page' => 'admin/event/v_add',
+
+                ];
+            $this->load->view('templates/v_template', $data, false);
+            $this->session->set_flashdata('pesan', '');
+        } else {
+
+
+            $kode_satu =  strtoupper(random_string($type = 'alnum', 5));
+            $kode_dua =  strtoupper(random_string($type = 'alnum', 5));
+
+
+
+            $data = [
+                'nama_event' => $this->input->post('nama_event'),
+                'tempat' => $this->input->post('tempat'),
+                'kode_satu' =>  $kode_satu,
+                'kode_dua' => $kode_dua,
+                'kuota' => $this->input->post('kuota'),
+                'link_zoom' => $this->input->post('link_zoom'),
+                'waktu_mulai' => $this->input->post('waktu_mulai'),
+                'waktu_selesai' => $this->input->post('waktu_selesai'),
+            ];
+            $this->ModelEvent->insertData($data);
+            $this->session->set_flashdata(
+                'pesan',
+                'Data Berhasil Di Update'
+            );
+            redirect('event');
+        }
+    }
     public function detail($id_event)
     {
         $data =
@@ -54,6 +128,16 @@ class Event extends CI_Controller
                 'label' => 'Link',
                 'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
             ),
+            array(
+                'field' => 'waktu_mulai',
+                'label' => 'Waktu Mulai',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
+            array(
+                'field' => 'waktu_selesai',
+                'label' => 'Waktu Selesai',
+                'rules' => 'required|trim', //agar spasi tidak masuk didalam spasi
+            ),
         );
 
         $this->form_validation->set_rules($config);
@@ -75,6 +159,8 @@ class Event extends CI_Controller
                 'id_event' => $id_event,
                 'kuota' => $this->input->post('kuota'),
                 'link_zoom' => $this->input->post('link_zoom'),
+                'waktu_mulai' => $this->input->post('waktu_mulai'),
+                'waktu_selesai' => $this->input->post('waktu_selesai'),
             ];
             $this->ModelEvent->updateData($data);
             $this->session->set_flashdata(

@@ -5,8 +5,7 @@
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Daftar Event</h6>
-
+        <a href="<?= base_url('event/addData'); ?>" type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add Event</a>
     </div>
     <div class="card-body">
         <!-- Pesan eror -->
@@ -72,6 +71,14 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Kuota Peserta</label>
                         <input type="number" name="kuota" class="form-control" id="exampleFormControlInput1" value="<?= $value['kuota']; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Waktu Mulai</label>
+                        <input type="datetime-local" class="form-control" name="waktu_mulai" value="<?= date('Y-m-d\TH:i', strtotime($value['waktu_mulai'])); ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Waktu selesai</label>
+                        <input type="datetime-local" class="form-control" name="waktu_selesai" value="<?= date('Y-m-d\TH:i', strtotime($value['waktu_selesai'])); ?>">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Link</label>

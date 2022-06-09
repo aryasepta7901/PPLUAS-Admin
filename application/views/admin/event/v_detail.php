@@ -19,6 +19,8 @@
                     <li class="list-group-item">Link: <a href="<?= $event['link_zoom']; ?>">Ini Link</a></li>
 
                 <?php endif; ?>
+                <li class="list-group-item">Waktu Mulai : <?= $event['waktu_mulai']; ?></li>
+                <li class="list-group-item">Waktu Selesai: <?= $event['waktu_selesai']; ?></li>
                 <li class="list-group-item">Absensi Awal: <?= $event['kode_satu']; ?></li>
                 <li class="list-group-item">Absensi Akhir: <?= $event['kode_dua']; ?></li>
 
@@ -33,73 +35,88 @@
     </div>
 </div>
 
+<?php
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4 mt-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Absensi Peserta</h6>
+$sekarang = strtotime(date('Y-m-d H:i:s'));
+$kegiatan = strtotime($event['waktu_mulai']);
+?>
+<?php if ($sekarang < $kegiatan) : ?>
+    <div class="alert alert-info mt-4" role="alert">
+        Kegiatan akan dilaksanakan pada <?= $event['waktu_mulai']; ?>
     </div>
-    <div class="card-body">
+<?php else : ?>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4 mt-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Absensi Peserta</h6>
+        </div>
+        <div class="card-body">
 
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nama</th>
-                        <th>NIM</th>
-                        <th>Keterangan</th>
-                        <th>Tingkat Kehadiran</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $no = 1;
-                    foreach ($mahasiswa as $key => $value) : ?>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
                         <tr>
-                            <td><?= $no++; ?></td>
-                            <td><?= $value['nama']; ?></td>
-                            <td><?= $value['nim']; ?></td>
-                            <td class="text-center">
-                                <?php if ($value['absen_awal'] != 0) : ?>
-                                    <span class="badge badge-success">Hadir</span>
-
-                                <?php else : ?>
-                                    <span class="badge badge-danger">Tidak Hadir</span>
-                                <?php endif; ?>
-
-                            </td>
-                            <td class="text-center">
-                                <?php
-                                $nilai = 0;
-                                if ($value['absen_awal'] != 0) {
-                                    $nilai = 50;
-                                    if ($value['absen_akhir'] != 0) {
-                                        $nilai = 100;
-                                    }
-                                } ?>
-                                <span class="badge badge-info"><?= $nilai; ?>%</span>
-
-                            </td>
-
-                            <td>
-                                <?php if ($value['absen_awal'] == 0) : ?>
-                                    <button data-toggle="modal" data-target="#updateAbsenAwal<?= $value['nim']; ?>" type="button" class="btn btn-info">Absen Awal</a>
-                                    <?php elseif ($value['absen_akhir'] == 0) : ?>
-                                        <button data-toggle="modal" data-target="#updateAbsenAkhir<?= $value['nim']; ?>" class="btn btn-warning">Absen Akhir</button>
-                                    <?php else : ?>
-                                        <button class="badge badge-info"><i class="fa fa-check"></i></button>
-                                    <?php endif; ?>
-                            </td>
-
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Keterangan</th>
+                            <th>Tingkat Kehadiran</th>
+                            <th>Action</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $no = 1;
+                        foreach ($mahasiswa as $key => $value) : ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= $value['nama']; ?></td>
+                                <td><?= $value['nim']; ?></td>
+                                <td class="text-center">
+                                    <?php if ($value['absen_awal'] != 0) : ?>
+                                        <span class="badge badge-success">Hadir</span>
+
+                                    <?php else : ?>
+                                        <span class="badge badge-danger">Tidak Hadir</span>
+                                    <?php endif; ?>
+
+                                </td>
+                                <td class="text-center">
+                                    <?php
+                                    $nilai = 0;
+                                    if ($value['absen_awal'] != 0) {
+                                        $nilai = 50;
+                                        if ($value['absen_akhir'] != 0) {
+                                            $nilai = 100;
+                                        }
+                                    } ?>
+                                    <span class="badge badge-info"><?= $nilai; ?>%</span>
+
+                                </td>
+
+                                <td>
+                                    <?php if ($value['absen_awal'] == 0) : ?>
+                                        <button data-toggle="modal" data-target="#updateAbsenAwal<?= $value['nim']; ?>" type="button" class="btn btn-info">Absen Awal</a>
+                                        <?php elseif ($value['absen_akhir'] == 0) : ?>
+                                            <button data-toggle="modal" data-target="#updateAbsenAkhir<?= $value['nim']; ?>" class="btn btn-warning">Absen Akhir</button>
+                                        <?php else : ?>
+                                            <button class="badge badge-info"><i class="fa fa-check"></i></button>
+                                        <?php endif; ?>
+                                </td>
+
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+<?php endif; ?>
+
+
+
+
+
 <!-- Modal Absen pertama -->
 
 <?php foreach ($mahasiswa as $key => $value) : ?>

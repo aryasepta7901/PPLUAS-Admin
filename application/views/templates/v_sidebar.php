@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">Admin Webinar PKL <sup></sup></div>
     </a>
 
     <!-- Divider -->
@@ -44,6 +44,19 @@
             <i class="fas fa-fw fa-sitemap"></i>
             <span>Event</span></a>
     </li>
+    <!-- Nav Item - Event -->
+    <li class="nav-item ">
+        <a class="nav-link "">
+            
+            <span>Waktu Server: <?= date('H:i:s'); ?></span></a>
+    </li>
+       <!-- Divider -->
+       <hr class=" sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
 
 

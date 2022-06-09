@@ -11,6 +11,10 @@ class ModelEvent extends CI_Model
 
         return $this->db->get()->result_array();
     }
+    public function insertData($data)
+    {
+        $this->db->insert('sikoko_event', $data);
+    }
     public function getData($id_event)
     {
         $this->db->select('*');
